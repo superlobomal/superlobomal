@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class ConexionDB {
    Connection conexion = null;
-   String usuario = "root", pass = "Aja8092063514", bd = "sistema_programacion", ip = "localhost", port = "3306";
+   String usuario = "", pass = "", bd = "sistema_programacion", ip = "localhost", port = "3306";
    String cconexion = "jdbc:mysql://"+ ip + ":" + port + "/" + bd;
    
    public Connection conectar(){
