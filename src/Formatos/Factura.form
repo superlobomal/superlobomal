@@ -321,17 +321,17 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="sub_total" min="-2" pref="98" max="-2" attributes="0"/>
+                                  <Component id="sub_total_general" min="-2" pref="98" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="itbis" min="-2" pref="98" max="-2" attributes="0"/>
+                                  <Component id="itbis_general" min="-2" pref="98" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="total" min="-2" pref="98" max="-2" attributes="0"/>
+                                  <Component id="total_general" min="-2" pref="98" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -359,17 +359,17 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="sub_total" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="sub_total_general" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="itbis" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="itbis_general" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="total" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="total_general" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -445,7 +445,7 @@
             <Property name="text" type="java.lang.String" value="CANTIDAD"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="sub_total">
+        <Component class="javax.swing.JTextField" name="sub_total_general">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="ff" type="rgb"/>
@@ -462,7 +462,7 @@
             <Property name="text" type="java.lang.String" value="ITBIS"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="itbis">
+        <Component class="javax.swing.JTextField" name="itbis_general">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="ff" type="rgb"/>
@@ -474,7 +474,7 @@
             <Property name="text" type="java.lang.String" value="TOTAL"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="total">
+        <Component class="javax.swing.JTextField" name="total_general">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>

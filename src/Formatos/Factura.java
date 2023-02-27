@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,8 +18,44 @@ public class Factura extends javax.swing.JFrame {
         initComponents();
         buscar.requestFocus(true);
     }
+    
+    void limpiar(){
+         id_articulo.setText("");
+            des_articulo.setText("");
+            cantidad.setText("");
+            precio_v.setText("");
+            buscar.setText("");
+            buscar.requestFocus(true);
+    }
+    
+    void sumar_productos(){
+        DecimalFormat formateador = new DecimalFormat("############.##");
+        
+        DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();
+        
+        float total_g = 0,total_g2 = 0;
+        float itbis_g = 0, itbis_g2 = 0;
+        float sub_total_g = 0, sub_total_g2 = 0;
+        
+        for (int i=0; i< t_factura.getRowCount(); i++){
+            total_g = Float.parseFloat(t_factura.getValueAt(i, 6).toString());
+            total_g2=total_g2+total_g;
+            
+            itbis_g = Float.parseFloat(t_factura.getValueAt(i, 4).toString());
+            itbis_g2=itbis_g2+itbis_g;
+            
+            sub_total_g = Float.parseFloat(t_factura.getValueAt(i, 5).toString());
+            sub_total_g2=sub_total_g2+sub_total_g;
+            
+        }
+        total_general.setText(formateador.format(total_g2));
+        itbis_general.setText(formateador.format(itbis_g2));
+        sub_total_general.setText(formateador.format(sub_total_g2));
+        
+    }
     void llenar_datos(){
         
+            DecimalFormat formateador = new DecimalFormat("############.##");
         
         
             DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();            
@@ -35,9 +72,9 @@ public class Factura extends javax.swing.JFrame {
             registros[1] = des_articulo.getText();
             registros[2] = cantidad.getText();
             registros[3] = precio_v.getText();
-            registros[4] = String.valueOf(total2-sub_total2);
-            registros[5] = String.valueOf(sub_total2);
-            registros[6] = String.valueOf(total2);
+            registros[4] = formateador.format(total2-sub_total2);
+            registros[5] = formateador.format(sub_total2);
+            registros[6] = formateador.format(total2);
             model2.addRow(registros);
             t_factura.setModel(model2);
         
@@ -136,12 +173,12 @@ public class Factura extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         cantidad = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        sub_total = new javax.swing.JTextField();
+        sub_total_general = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        itbis = new javax.swing.JTextField();
+        itbis_general = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        total = new javax.swing.JTextField();
+        total_general = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -338,18 +375,18 @@ public class Factura extends javax.swing.JFrame {
 
         jLabel10.setText("CANTIDAD");
 
-        sub_total.setBackground(new java.awt.Color(255, 255, 204));
+        sub_total_general.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel11.setText("SUB TOTAL");
 
         jLabel12.setText("ITBIS");
 
-        itbis.setBackground(new java.awt.Color(255, 255, 204));
+        itbis_general.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel13.setText("TOTAL");
 
-        total.setBackground(new java.awt.Color(0, 0, 0));
-        total.setForeground(new java.awt.Color(255, 255, 0));
+        total_general.setBackground(new java.awt.Color(0, 0, 0));
+        total_general.setForeground(new java.awt.Color(255, 255, 0));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -381,15 +418,15 @@ public class Factura extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sub_total, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(sub_total_general, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(itbis, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(itbis_general, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(total_general, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -410,15 +447,15 @@ public class Factura extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(sub_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sub_total_general, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(itbis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(itbis_general, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(total_general, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -486,6 +523,8 @@ public class Factura extends javax.swing.JFrame {
 
     private void cantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantidadActionPerformed
         llenar_datos();
+        sumar_productos();
+        limpiar();
     }//GEN-LAST:event_cantidadActionPerformed
 
     /**
@@ -529,7 +568,7 @@ public class Factura extends javax.swing.JFrame {
     private javax.swing.JTextField des_articulo;
     private javax.swing.JTextField id_articulo;
     private javax.swing.JTextField id_cliente;
-    private javax.swing.JTextField itbis;
+    private javax.swing.JTextField itbis_general;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -554,10 +593,10 @@ public class Factura extends javax.swing.JFrame {
     private javax.swing.JTextField num_factura;
     private javax.swing.JTextField precio_v;
     private javax.swing.JTextField rnc;
-    private javax.swing.JTextField sub_total;
+    private javax.swing.JTextField sub_total_general;
     private javax.swing.JTable t_articulos;
     private javax.swing.JTable t_factura;
-    private javax.swing.JTextField total;
+    private javax.swing.JTextField total_general;
     // End of variables declaration//GEN-END:variables
     ConexionDB cc = new ConexionDB();
     Connection cn = cc.conectar();
