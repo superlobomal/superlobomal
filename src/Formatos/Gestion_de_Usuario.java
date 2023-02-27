@@ -44,7 +44,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
     model2.getDataVector().clear();
     
     String[] registros = new String[8];
-    String sql = "SELECT id_cliente,cliente,type_client,dir_cliente,phone,lim_cred,rnc,ncf FROM cliente where CONCAT (cliente,'',id_cliente,'',phone,'',rnc)LIKE '%"+valor+"%'";
+    String sql = "SELECT idusuarios,Nombre_usuario,personal,contraseña,tipo_usuario,phone FROM usuarios where CONCAT (idusuarios,'',Nombre_usuario,'',personal,'',phone)LIKE '%"+valor+"%'";
 
     try {
         Statement st = cn.createStatement();
@@ -52,14 +52,12 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         
 
         while (rs.next()) {
-            registros[0] = rs.getString("id_cliente");
-            registros[1] = rs.getString("cliente");
-            registros[2] = rs.getString("type_client");
-            registros[3] = rs.getString("dir_cliente");
+            registros[0] = rs.getString("idusuarios");
+            registros[1] = rs.getString("Nombre_usuario");
+            registros[3] = rs.getString("personal");
+            registros[2] = rs.getString("contraseña");
+            registros[5] = rs.getString("tipo_usuario");
             registros[4] = rs.getString("phone");
-            registros[5] = rs.getString("lim_cred");
-            registros[6] = rs.getString("rnc");
-            registros[7] = rs.getString("ncf");
             
            model2.addRow(registros);
         }
@@ -294,16 +292,16 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         if (t_usuario.getColumnModel().getColumnCount() > 0) {
             t_usuario.getColumnModel().getColumn(0).setMinWidth(80);
             t_usuario.getColumnModel().getColumn(0).setMaxWidth(80);
-            t_usuario.getColumnModel().getColumn(1).setMinWidth(250);
-            t_usuario.getColumnModel().getColumn(1).setMaxWidth(250);
-            t_usuario.getColumnModel().getColumn(2).setMinWidth(100);
-            t_usuario.getColumnModel().getColumn(2).setMaxWidth(100);
-            t_usuario.getColumnModel().getColumn(3).setMinWidth(150);
-            t_usuario.getColumnModel().getColumn(3).setMaxWidth(150);
-            t_usuario.getColumnModel().getColumn(4).setMinWidth(100);
-            t_usuario.getColumnModel().getColumn(4).setMaxWidth(100);
-            t_usuario.getColumnModel().getColumn(5).setMinWidth(120);
-            t_usuario.getColumnModel().getColumn(5).setMaxWidth(120);
+            t_usuario.getColumnModel().getColumn(1).setMinWidth(100);
+            t_usuario.getColumnModel().getColumn(1).setMaxWidth(100);
+            t_usuario.getColumnModel().getColumn(2).setMinWidth(120);
+            t_usuario.getColumnModel().getColumn(2).setMaxWidth(120);
+            t_usuario.getColumnModel().getColumn(3).setMinWidth(250);
+            t_usuario.getColumnModel().getColumn(3).setMaxWidth(250);
+            t_usuario.getColumnModel().getColumn(4).setMinWidth(90);
+            t_usuario.getColumnModel().getColumn(4).setMaxWidth(90);
+            t_usuario.getColumnModel().getColumn(5).setMinWidth(150);
+            t_usuario.getColumnModel().getColumn(5).setMaxWidth(150);
         }
 
         jLabel7.setText("BUSCAR");
@@ -369,7 +367,8 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
                             .addComponent(tipo_de_usuario, 0, 190, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 802, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 792, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

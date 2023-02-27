@@ -29,7 +29,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
             String sqlguardar="";
             
             
-            sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+reg_usaurio.getText()+"','"+reg_nombre_empleado.getText()+"','"+reg_contraseña.getText()+"',DEFAULT)";
+            sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+reg_usaurio.getText()+"','"+reg_nombre_empleado.getText()+"','"+reg_contraseña.getText()+"',DEFAULT,'"+phone.getText()+"')";
                 PreparedStatement sql =   cn.prepareStatement(sqlguardar);
             
             int x;
@@ -68,6 +68,8 @@ public class Registrar_usuraio extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         reg_contraseña = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        phone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,6 +99,14 @@ public class Registrar_usuraio extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("TELEFONO");
+
+        phone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -121,11 +131,18 @@ public class Registrar_usuraio extends javax.swing.JFrame {
                             .addComponent(reg_nombre_empleado)
                             .addComponent(reg_contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(128, 128, 128)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5)
+                        .addGap(73, 73, 73)
+                        .addComponent(phone)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,11 +164,15 @@ public class Registrar_usuraio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(reg_nombre_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,8 +188,8 @@ public class Registrar_usuraio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -184,6 +205,10 @@ public class Registrar_usuraio extends javax.swing.JFrame {
         this.dispose();
         new Login().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,7 +253,9 @@ public class Registrar_usuraio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField phone;
     private javax.swing.JPasswordField reg_contraseña;
     private javax.swing.JTextField reg_idusuario;
     private javax.swing.JTextField reg_nombre_empleado;
