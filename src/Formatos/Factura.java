@@ -419,6 +419,7 @@ public class Factura extends javax.swing.JFrame {
         jLabel13.setText("TOTAL");
 
         total_general.setBackground(new java.awt.Color(0, 0, 0));
+        total_general.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         total_general.setForeground(new java.awt.Color(255, 255, 0));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
