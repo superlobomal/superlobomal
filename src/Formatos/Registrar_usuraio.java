@@ -32,7 +32,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
             String sqlguardar="";
             
             
-            sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+reg_usaurio.getText()+"','"+reg_nombre_empleado.getText()+"',md5('"+contraseña.getText()+"'),DEFAULT,'"+phone.getText()+"')";
+            sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+reg_usaurio.getText()+"','"+reg_nombre_empleado.getText()+"',md5('"+contraseña.getPassword()+"'),DEFAULT,'"+phone.getText()+"')";
                 PreparedStatement sql =   cn.prepareStatement(sqlguardar);
             
             int x;

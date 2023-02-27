@@ -32,7 +32,7 @@ public class Login extends javax.swing.JFrame {
                         registros[0] = rs.getString("Nombre_usuario");
                          registros[1] = rs.getString("contraseña");
                          JOptionPane.showMessageDialog(null,"USUARIO ENCONTRADO"+registros[0]);
-                          if (log_usuario.getText().equals(registros[0])){
+                          if (pass1.equals(registros[1])){
                           control_entrada="1";
                              } 
                                                    
