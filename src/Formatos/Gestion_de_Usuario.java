@@ -27,10 +27,12 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         }
     }
     void actualizar_datos(){
+        String tip_de_usuario = String.valueOf(tipo_de_usuario.getSelectedItem());
+        
         try {
             PreparedStatement psU= cn.prepareStatement("UPDATE usuarios SET idusuarios='"+id_usuario.getText()+"',Nombre_usuario='"+usuario.getText()+"',"
-                    + "personal='"+nom_empleado.getText()+"',ncf='"+ncf.getText()+"',dir_cliente='"+nom_empleado.getText()+"',phone='"+phone.getText()+"',lim_cred='"+lim_cred.getText()+"'"
-                            + "WHERE id_cliente='"+id_usuario.getText()+"'");
+                    + "personal='"+nom_empleado.getText()+"',tipo_usuario='"+tip_de_usuario+"',contraseña='"+contraseña.getText()+"',phone='"+phone.getText()+"'"
+                            + "WHERE idusuarios='"+id_usuario.getText()+"'");
                     psU.executeUpdate();
                     
         } catch (Exception e) {
@@ -38,7 +40,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         }
     }
      void cargar_filtro(String valor){
-    DefaultTableModel model2 = (DefaultTableModel)t_cliente.getModel();
+    DefaultTableModel model2 = (DefaultTableModel)t_usuario.getModel();
     model2.getDataVector().clear();
     
     String[] registros = new String[8];
@@ -62,7 +64,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
            model2.addRow(registros);
         }
         
-        t_cliente.setModel(model2);
+        t_usuario.setModel(model2);
        
     }  
     catch (SQLException ex) {
@@ -72,11 +74,11 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
 }
 
     void cargar(){
-    DefaultTableModel model2 = (DefaultTableModel)t_cliente.getModel();
+    DefaultTableModel model2 = (DefaultTableModel)t_usuario.getModel();
     model2.getDataVector().clear();
     
     String[] registros = new String[8];
-    String sql = "SELECT id_cliente,cliente,type_client,dir_cliente,phone,lim_cred,rnc,ncf FROM cliente";
+    String sql = "SELECT idusuarios,Nombre_usuario,personal,contraseña,tipo_usuario,phone FROM usuarios";
 
     try {
         Statement st = cn.createStatement();
@@ -84,18 +86,17 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         
 
         while (rs.next()) {
-            registros[0] = rs.getString("id_cliente");
-            registros[1] = rs.getString("cliente");
-            registros[2] = rs.getString("type_client");
-            registros[3] = rs.getString("dir_cliente");
-            registros[4] = rs.getString("phone");
-            registros[5] = rs.getString("lim_cred");
-            registros[6] = rs.getString("rnc");
-            registros[7] = rs.getString("ncf");
+            registros[0] = rs.getString("idusuarios");
+            registros[1] = rs.getString("Nombre_usuario");
+            registros[2] = rs.getString("personal");
+            registros[3] = rs.getString("contraseña");
+            registros[4] = rs.getString("tipo_usuario");
+            registros[5] = rs.getString("phone");
+            
            model2.addRow(registros);
         }
         
-        t_cliente.setModel(model2);
+        t_usuario.setModel(model2);
        
     }  
     catch (SQLException ex) {
@@ -110,14 +111,12 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
           contraseña.setText("");
           nom_empleado.setText("");
           phone.setText("");
-          lim_cred.setText("");
-          rnc.setText("");
-          ncf.setText("");
+          tipo_de_usuario.setSelectedIndex(0);         
           id_usuario.requestFocus(true);
       }
       void cargar_datos(){
     String[] registros = new String[7];
-    String sql = "SELECT cliente,type_client,dir_cliente,phone,lim_cred,rnc,ncf FROM cliente WHERE id_cliente = '"+id_usuario.getText()+"'";
+    String sql = "SELECT Nombre_usuario,personal,contraseña,tipo_usuario,phone FROM usuarios WHERE idusuarios = '"+id_usuario.getText()+"'";
 
     try {
         Statement st = cn.createStatement();
@@ -125,24 +124,21 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         
 
         while (rs.next()) {
-            registros[0] = rs.getString("cliente");
-            registros[1] = rs.getString("type_client");
-            registros[2] = rs.getString("dir_cliente");
-            registros[3] = rs.getString("phone");
-            registros[4] = rs.getString("lim_cred");
-            registros[5] = rs.getString("rnc");
-            registros[6] = rs.getString("ncf");
-            
+            registros[0] = rs.getString("Nombre_usuario");
+            registros[1] = rs.getString("personal");
+            registros[2] = rs.getString("contraseña");
+            registros[3] = rs.getString("tipo_usuario");
+            registros[4] = rs.getString("phone");
+           
            
         }
         
         usuario.setText(registros[0]);
-        contraseña.setText(registros[1]);
-        nom_empleado.setText(registros[2]);
-        phone.setText(registros[3]);       
-        lim_cred.setText(registros[4]);
-        rnc.setText(registros[5]);
-        ncf.setText(registros[6]);
+        contraseña.setText(registros[2]);
+        nom_empleado.setText(registros[1]);
+        phone.setText(registros[4]);       
+        tipo_de_usuario.setSelectedItem(registros[3]);
+        
 
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(null,ex);
@@ -151,13 +147,15 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
 }
 
     void guardar(){
+        
+        String tip_de_usuario = String.valueOf(tipo_de_usuario.getSelectedItem());
     
         try {
             String sqlguardar="";
             
             
-            sqlguardar = "INSERT INTO cliente VALUES (DEFAULT,'"+usuario.getText()+"','"+contraseña.getText()+"','"+nom_empleado.getText()+"',"
-            + " '"+phone.getText()+"','"+lim_cred.getText()+"','"+rnc.getText()+"','"+ncf.getText()+"')";
+            sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+usuario.getText()+"','"+nom_empleado.getText()+"','"+contraseña.getText()+"',"
+            + " '"+tip_de_usuario+"','"+phone.getText()+"')";
             PreparedStatement sql =   cn.prepareStatement(sqlguardar);
             
             int x;
@@ -205,7 +203,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        t_cliente = new javax.swing.JTable();
+        t_usuario = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         buscar_nombre = new javax.swing.JTextField();
         mod_datos = new javax.swing.JButton();
@@ -216,9 +214,9 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         setModalExclusionType(null);
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 0))); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 0))); // NOI18N
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("ID USUARIO");
 
         id_usuario.addActionListener(new java.awt.event.ActionListener() {
@@ -238,13 +236,10 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("USUARIO");
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("CONTRASEÑA");
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("NOM.EMPLEADO");
 
         phone.addActionListener(new java.awt.event.ActionListener() {
@@ -253,13 +248,10 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("TELEFONO");
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("TIPO DE USUARIO");
 
-        save.setForeground(new java.awt.Color(0, 0, 0));
         save.setText("GUARDAR");
         save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -267,7 +259,6 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("EXIT");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,7 +266,6 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("LIMPIAR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,43 +273,39 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        t_cliente.setForeground(new java.awt.Color(0, 0, 0));
-        t_cliente.setModel(new javax.swing.table.DefaultTableModel(
+        t_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "CODIGO", "CLIENTE", "TIPO DE CLIENTE", "DIR DE CLIENTE", "TELEFONO", "LIMITE DE CREDITO", "RNC", "NCF"
+                "CODIGO", "USUARIO", "CONTRASEÑA", "NOM.EMPLEADO", "TELEFONO", "TIPO DE USUARIO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        t_cliente.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(t_cliente);
-        if (t_cliente.getColumnModel().getColumnCount() > 0) {
-            t_cliente.getColumnModel().getColumn(0).setMinWidth(80);
-            t_cliente.getColumnModel().getColumn(0).setMaxWidth(80);
-            t_cliente.getColumnModel().getColumn(1).setMinWidth(250);
-            t_cliente.getColumnModel().getColumn(1).setMaxWidth(250);
-            t_cliente.getColumnModel().getColumn(2).setMinWidth(100);
-            t_cliente.getColumnModel().getColumn(2).setMaxWidth(100);
-            t_cliente.getColumnModel().getColumn(3).setMinWidth(150);
-            t_cliente.getColumnModel().getColumn(3).setMaxWidth(150);
-            t_cliente.getColumnModel().getColumn(4).setMinWidth(100);
-            t_cliente.getColumnModel().getColumn(4).setMaxWidth(100);
-            t_cliente.getColumnModel().getColumn(5).setMinWidth(120);
-            t_cliente.getColumnModel().getColumn(5).setMaxWidth(120);
-            t_cliente.getColumnModel().getColumn(7).setMinWidth(80);
-            t_cliente.getColumnModel().getColumn(7).setMaxWidth(80);
+        t_usuario.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setViewportView(t_usuario);
+        if (t_usuario.getColumnModel().getColumnCount() > 0) {
+            t_usuario.getColumnModel().getColumn(0).setMinWidth(80);
+            t_usuario.getColumnModel().getColumn(0).setMaxWidth(80);
+            t_usuario.getColumnModel().getColumn(1).setMinWidth(250);
+            t_usuario.getColumnModel().getColumn(1).setMaxWidth(250);
+            t_usuario.getColumnModel().getColumn(2).setMinWidth(100);
+            t_usuario.getColumnModel().getColumn(2).setMaxWidth(100);
+            t_usuario.getColumnModel().getColumn(3).setMinWidth(150);
+            t_usuario.getColumnModel().getColumn(3).setMaxWidth(150);
+            t_usuario.getColumnModel().getColumn(4).setMinWidth(100);
+            t_usuario.getColumnModel().getColumn(4).setMaxWidth(100);
+            t_usuario.getColumnModel().getColumn(5).setMinWidth(120);
+            t_usuario.getColumnModel().getColumn(5).setMaxWidth(120);
         }
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("BUSCAR");
 
         buscar_nombre.addActionListener(new java.awt.event.ActionListener() {
@@ -333,7 +319,6 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        mod_datos.setForeground(new java.awt.Color(0, 0, 0));
         mod_datos.setText("MODIFICAR DATOS");
         mod_datos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -341,7 +326,6 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        eliminar_datos.setForeground(new java.awt.Color(0, 0, 0));
         eliminar_datos.setText("ELIMINAR DATOS");
         eliminar_datos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,7 +333,6 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
 
-        tipo_de_usuario.setForeground(new java.awt.Color(0, 0, 0));
         tipo_de_usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de usuario", "Usuario", "Admin" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -378,16 +361,15 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(nom_empleado, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(id_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(tipo_de_usuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(phone)
+                            .addComponent(nom_empleado)
+                            .addComponent(id_usuario)
+                            .addComponent(usuario)
+                            .addComponent(contraseña)
+                            .addComponent(tipo_de_usuario, 0, 190, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 937, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 802, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,7 +411,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
                     .addComponent(buscar_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -437,16 +419,14 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -482,26 +462,18 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
        nom_empleado.requestFocus(true);
        return;  
       }
-      if (nom_empleado.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       nom_empleado.requestFocus(true);
-       return;  
-      }
+      
       if (phone.getText().equals("")){
        JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
        phone.requestFocus(true);
        return;  
       }
-      if (lim_cred.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       lim_cred.requestFocus(true);
+      if (tipo_de_usuario.getSelectedItem().equals("Tipo de usuario")){
+       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE USUARIO NO AH SIDO SELECCIONADO");
+       tipo_de_usuario.requestFocus(true);
        return;  
       }
-      if (rnc.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       rnc.requestFocus(true);
-       return;  
-      }
+      
         guardar();
         limpiar();
         cargar();
@@ -536,24 +508,15 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
        nom_empleado.requestFocus(true);
        return;  
       }
-      if (nom_empleado.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       nom_empleado.requestFocus(true);
-       return;  
-      }
+      
       if (phone.getText().equals("")){
        JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
        phone.requestFocus(true);
        return;  
       }
-      if (lim_cred.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       lim_cred.requestFocus(true);
-       return;  
-      }
-      if (rnc.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       rnc.requestFocus(true);
+      if (tipo_de_usuario.getSelectedItem().equals("Tipo de usuario")){
+       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE USUARIO NO AH SIDO SELECCIONADO");
+       tipo_de_usuario.requestFocus(true);
        return;  
       }
        
@@ -578,24 +541,15 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
        nom_empleado.requestFocus(true);
        return;  
       }
-      if (nom_empleado.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       nom_empleado.requestFocus(true);
-       return;  
-      }
+      
       if (phone.getText().equals("")){
        JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
        phone.requestFocus(true);
        return;  
       }
-      if (lim_cred.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       lim_cred.requestFocus(true);
-       return;  
-      }
-      if (rnc.getText().equals("")){
-       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE CLIENTE ESTA BACIO");
-       rnc.requestFocus(true);
+      if (tipo_de_usuario.getSelectedItem().equals("Tipo de usuario")){
+       JOptionPane.showMessageDialog(null,"EL CAMPO TIPO DE USUARIO NO AH SIDO SELECCIONADO");
+       tipo_de_usuario.requestFocus(true);
        return;  
       }
         borrar_datos();
@@ -670,7 +624,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
     private javax.swing.JTextField nom_empleado;
     private javax.swing.JTextField phone;
     private javax.swing.JButton save;
-    private javax.swing.JTable t_cliente;
+    private javax.swing.JTable t_usuario;
     private javax.swing.JComboBox<String> tipo_de_usuario;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
