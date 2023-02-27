@@ -266,10 +266,10 @@ public class Registrar_articulo extends javax.swing.JFrame {
         setModalExclusionType(null);
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO ARTICULO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 0))); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO ARTICULO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 0))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("ID ARTICULO");
 
         id_articulo.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +290,6 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel2.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("DES. DE ARTICULO");
 
         codigo.addActionListener(new java.awt.event.ActionListener() {
@@ -300,11 +299,9 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("CODIGO");
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("STOCK");
 
         precio_compra.addActionListener(new java.awt.event.ActionListener() {
@@ -314,7 +311,6 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel5.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("PRECIO DE COMPRA");
 
         precio_venta.addActionListener(new java.awt.event.ActionListener() {
@@ -324,7 +320,6 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel6.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("PRECIO DE VENTA");
 
         save.setText("GUARDAR");
@@ -389,7 +384,6 @@ public class Registrar_articulo extends javax.swing.JFrame {
         }
 
         jLabel7.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("BUSCAR");
 
         buscar_nombre.addActionListener(new java.awt.event.ActionListener() {
@@ -418,14 +412,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel8.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("ITBIS");
 
         jLabel9.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("TIPO DE CONTEO ");
 
-        tipo_de_conteo.setForeground(new java.awt.Color(0, 0, 0));
         tipo_de_conteo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione tipo de conteo", "UNIDAD", "LIBRA", "CAJA", "FARDO" }));
         tipo_de_conteo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,11 +425,9 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel10.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("REFERENCIA");
 
         jLabel11.setBackground(new java.awt.Color(51, 51, 255));
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("CANTIDAD MIN STK");
 
         min_stock.addActionListener(new java.awt.event.ActionListener() {
@@ -447,7 +436,6 @@ public class Registrar_articulo extends javax.swing.JFrame {
             }
         });
 
-        itbis.setForeground(new java.awt.Color(0, 0, 0));
         itbis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione una tasa ITBIS", "0", "2", "8", "9", "16", "18", "28" }));
         itbis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
