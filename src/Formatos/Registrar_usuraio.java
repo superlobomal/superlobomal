@@ -1,55 +1,45 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Formatos;
 
 import Poo2.ConexionDB;
+import Poo2.Encryption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author josel
- */
+
 public class Registrar_usuraio extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Registrar_usuraio
-     */
+    
     public Registrar_usuraio() {
         initComponents();
         conf_contraseña.setText("");
         contraseña.setText("");
+        guardar.setEnabled(false);
         
     }
     
         void guardar () {
     
-        try {
-            String sqlguardar="";
+    try {
+        String sqlguardar="";
+        
+        String password = Encryption.MD5(pass2);
+        
+        sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+reg_usaurio.getText()+"','"+reg_nombre_empleado.getText()+"','"+password+"',DEFAULT,'"+phone.getText()+"')";
+        PreparedStatement sql = cn.prepareStatement(sqlguardar);
             
-            
-            sqlguardar = "INSERT INTO usuarios VALUES (DEFAULT,'"+reg_usaurio.getText()+"','"+reg_nombre_empleado.getText()+"',md5('"+contraseña.getPassword()+"'),DEFAULT,'"+phone.getText()+"')";
-                PreparedStatement sql =   cn.prepareStatement(sqlguardar);
-            
-            int x;
-            x = sql.executeUpdate();
-            if(x>0){
+        int x;
+        x = sql.executeUpdate();
+        if(x>0){
             JOptionPane.showMessageDialog(null, "DATOS GUARDADOS");
-            
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,e);
         }
-    
-    
-    
-    
+            
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null,e);
     }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,7 +58,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         reg_nombre_empleado = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        guardar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         phone = new javax.swing.JTextField();
@@ -91,10 +81,10 @@ public class Registrar_usuraio extends javax.swing.JFrame {
 
         jLabel4.setText("NOMBRE DE EMPLEADO");
 
-        jButton1.setText("GUARDAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        guardar.setText("GUARDAR");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                guardarActionPerformed(evt);
             }
         });
 
@@ -116,6 +106,8 @@ public class Registrar_usuraio extends javax.swing.JFrame {
         jLabel6.setText("CONTRASEÑA");
 
         contraseña_correcta.setBackground(new java.awt.Color(204, 255, 204));
+        contraseña_correcta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        contraseña_correcta.setForeground(new java.awt.Color(255, 255, 255));
 
         conf_contraseña.setText("jPasswordField1");
         conf_contraseña.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +117,11 @@ public class Registrar_usuraio extends javax.swing.JFrame {
         });
 
         contraseña.setText("jPasswordField2");
+        contraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contraseñaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,7 +133,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
                         .addGap(128, 128, 128)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(guardar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -164,10 +161,10 @@ public class Registrar_usuraio extends javax.swing.JFrame {
                                     .addComponent(reg_usaurio))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(contraseña_correcta, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(contraseña_correcta, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,9 +185,9 @@ public class Registrar_usuraio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(conf_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(contraseña_correcta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contraseña_correcta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(reg_nombre_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -200,7 +197,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
                     .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(guardar)
                     .addComponent(jButton2))
                 .addContainerGap())
         );
@@ -228,19 +225,30 @@ public class Registrar_usuraio extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         guardar ();
         this.dispose();
         new Login().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_guardarActionPerformed
 
     private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneActionPerformed
 
     private void conf_contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conf_contraseñaActionPerformed
-        // TODO add your handling code here:
+        pass2=new String(conf_contraseña.getPassword());
+        if(pass1.equals(pass2)){
+            contraseña_correcta.setText("CONTRASEÑA CORRECTA");
+            guardar.setEnabled(true);
+        }
+        else{
+            contraseña_correcta.setText("CONTRASEÑA INCORRECTA");
+        }
     }//GEN-LAST:event_conf_contraseñaActionPerformed
+
+    private void contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraseñaActionPerformed
+        pass1=new String(contraseña.getPassword());
+    }//GEN-LAST:event_contraseñaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,7 +290,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
     private javax.swing.JPasswordField conf_contraseña;
     private javax.swing.JPasswordField contraseña;
     private javax.swing.JLabel contraseña_correcta;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton guardar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

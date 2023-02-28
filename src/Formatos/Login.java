@@ -1,56 +1,59 @@
-
 package Formatos;
 
 import java.sql.Connection;
 import Poo2.ConexionDB;
+import Poo2.Encryption;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-public class Login extends javax.swing.JFrame {
 
-   
+public class Login extends javax.swing.JFrame {
+    
+    
+
     public Login() {
         initComponents();
-        log_contraseña.setText("");
+        password_l.setText("");
         log_usuario.requestFocus(true);
     }
     
-    void buscar_usuario(){
-           String control_entrada="";    
-        String[] registros = new String[5];        
-        String sql = "SELECT Nombre_usuario,contraseña FROM usuarios WHERE Nombre_usuario='"+log_usuario.getText()+"' and contraseña=md5('"+pass1+"')";
-                
-               try {
-                       Statement st = cn.createStatement();
-                       ResultSet rs = st.executeQuery(sql); 
-                       
-                       while (rs.next()) {
-                           
-                        registros[0] = rs.getString("Nombre_usuario");
-                         registros[1] = rs.getString("contraseña");
-                         JOptionPane.showMessageDialog(null,"USUARIO ENCONTRADO"+registros[0]);
-                          if (pass1.equals(registros[1])){
-                          control_entrada="1";
-                             } 
-                                                   
-                                           }
-                       if(control_entrada.equals("1")){
-                           this.dispose();
-                           new Panel_de_control().setVisible(true);
-                       }
-                       else{
-                           JOptionPane.showMessageDialog(null,"EL USUARIO O LA CONTRASEÑA SON INCORRECTOS");
-                       }
-                      
-         
-         } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null,ex);
 
+   void buscar_usuario() {
+    String nombre_usuario = log_usuario.getText();
+    String password = new String(this.password_l.getPassword());
+    String control_entrada = "";
+    String sql = "SELECT Nombre_usuario,password FROM usuarios WHERE Nombre_usuario=? AND password=?";
+    
+    try {
+        PreparedStatement ps = cn.prepareStatement(sql);
+        ps.setString(1, nombre_usuario);
+        ps.setString(2, Encryption.MD5(password));
+        ResultSet rs = ps.executeQuery(); 
+                       
+        if (rs.next()) {
+            control_entrada = "1";
+        }
+                                                   
+        if (control_entrada.equals("1")){
+            this.dispose();
+            new Panel_de_control().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "EL USUARIO O LA PASSWORD SON INCORRECTOS");
+        } 
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, ex);
     }
-    }
+}
+
+
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,7 +64,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        log_contraseña = new javax.swing.JPasswordField();
+        password_l = new javax.swing.JPasswordField();
         bt_registrase = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -101,9 +104,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        log_contraseña.addActionListener(new java.awt.event.ActionListener() {
+        password_l.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                log_contraseñaActionPerformed(evt);
+                password_lActionPerformed(evt);
             }
         });
 
@@ -130,7 +133,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(60, 60, 60)
                         .addComponent(jButton1))
-                    .addComponent(log_contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(password_l, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                     .addComponent(log_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
@@ -144,7 +147,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(log_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(password_l, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -176,20 +179,22 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            buscar_usuario();
+        buscar_usuario();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void log_contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_log_contraseñaActionPerformed
-        pass1 =new String(log_contraseña.getPassword());
-    }//GEN-LAST:event_log_contraseñaActionPerformed
+    private void password_lActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password_lActionPerformed
+        
+        pass1 = new String(password_l.getPassword());
+        buscar_usuario();
+    }//GEN-LAST:event_password_lActionPerformed
 
     private void bt_registraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registraseActionPerformed
         new Registrar_usuraio().setVisible(true);
@@ -197,7 +202,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_registraseActionPerformed
 
     private void log_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_log_usuarioActionPerformed
-        log_contraseña.requestFocus(true);
+        password_l.requestFocus(true);
     }//GEN-LAST:event_log_usuarioActionPerformed
 
     /**
@@ -243,12 +248,13 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField log_contraseña;
     private javax.swing.JTextField log_usuario;
+    private javax.swing.JPasswordField password_l;
     // End of variables declaration//GEN-END:variables
-        
-        ConexionDB cc= new ConexionDB();
-        Connection cn = cc.conectar();
-        String pass1="";
 
-}
+    ConexionDB cc = new ConexionDB();
+    Connection cn = cc.conectar();
+    String pass1 = "";
+
+      
+    }
