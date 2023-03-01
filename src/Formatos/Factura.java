@@ -54,32 +54,62 @@ public class Factura extends javax.swing.JFrame {
         sub_total_general.setText(formateador.format(sub_total_g2));
         
     }
-    void llenar_datos(){
-        
-            DecimalFormat formateador = new DecimalFormat("############.##");
-        
-        
-            DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();            
-            String[] registros = new String[10];
-            float itbf = 1.18f;
-            float precio2=Float.parseFloat(precio_v.getText());
-            float cantidad2=Float.parseFloat(cantidad.getText());
-            float total2=precio2*cantidad2;
-            float sub_total2=total2/itbf;
-            
-           
-            
-            registros[0] = id_articulo.getText();
-            registros[1] = des_articulo.getText();
-            registros[2] = cantidad.getText();
-            registros[3] = precio_v.getText();
-            registros[4] = formateador.format(total2-sub_total2);
-            registros[5] = formateador.format(sub_total2);
-            registros[6] = formateador.format(total2);
-            model2.addRow(registros);
-            t_factura.setModel(model2);
-        
+   void llenar_datos(){
+    DecimalFormat formateador = new DecimalFormat("############.##");
+    DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();            
+    String[] registros = new String[10];
+    
+    // Obtener el valor de ITBIS desde la base de datos
+    float itbis_bd = 0.0f;
+    try {
+        String sql = "SELECT itbis FROM articulo WHERE id_art = ?";
+        PreparedStatement ps = cn.prepareStatement(sql);
+        ps.setString(1, id_articulo.getText());
+        ResultSet rs = ps.executeQuery(); 
+        if (rs.next()) {
+            itbis_bd = rs.getFloat("itbis");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, ex);
     }
+    
+    // Establecer el valor de ITBIS a usar en los cálculos
+    float itbis_para_calcular;
+    if (itbis_bd == 0.0f) {
+        itbis_para_calcular = 1.0f;
+    } else if (itbis_bd == 2.0f) {
+        itbis_para_calcular = 1.02f;
+    } else if (itbis_bd == 8.0f) {
+        itbis_para_calcular = 1.08f;
+    } else if (itbis_bd == 9.0f) {
+        itbis_para_calcular = 1.09f;
+    } else if (itbis_bd == 16.0f) {
+        itbis_para_calcular = 1.16f;
+    } else if (itbis_bd == 18.0f) {
+        itbis_para_calcular = 1.18f;
+    } else if (itbis_bd == 28.0f) {
+        itbis_para_calcular = 1.28f;
+    } else {
+        // Si no se encuentra el ITBIS en la lista de valores conocidos, se utiliza el valor por defecto de 0.0f
+        itbis_para_calcular = 0.0f;
+    }
+    
+    float precio2=Float.parseFloat(precio_v.getText());
+    float cantidad2=Float.parseFloat(cantidad.getText());
+    float total2=precio2*cantidad2;
+    float sub_total2=total2/itbis_para_calcular;
+
+    registros[0] = id_articulo.getText();
+    registros[1] = des_articulo.getText();
+    registros[2] = cantidad.getText();
+    registros[3] = precio_v.getText();
+    registros[4] = formateador.format(total2-sub_total2);
+    registros[5] = formateador.format(sub_total2);
+    registros[6] = formateador.format(total2);
+    model2.addRow(registros);
+    t_factura.setModel(model2);
+}
+
     void cargar_articulo(String valor) {
         
 

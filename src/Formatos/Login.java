@@ -28,6 +28,7 @@ public class Login extends javax.swing.JFrame {
     String nombre_usuario = log_usuario.getText();
     String password = new String(this.password_l.getPassword());
     String control_entrada = "";
+    String tipo_usuario = "";
     String sql = "SELECT Nombre_usuario,password,tipo_usuario FROM usuarios WHERE Nombre_usuario=? AND password=?";
     
     try {
@@ -37,17 +38,15 @@ public class Login extends javax.swing.JFrame {
         ResultSet rs = ps.executeQuery(); 
                        
         if (rs.next()) {
-            String tipo_usuario = rs.getString("tipo_usuario");
-            if (tipo_usuario == null) {
-                JOptionPane.showMessageDialog(null, "DEBE PEDIR RANGO DE USUARIO A UN ADMINISTRADO");
-            } else if (tipo_usuario.equals("Usuario") || tipo_usuario.equals("Admin")) {
-                control_entrada = "1";
-            }
+            control_entrada = "1";
+            tipo_usuario = rs.getString("tipo_usuario");
         }
                                                    
-        if (control_entrada.equals("1")){
+        if (control_entrada.equals("1") && tipo_usuario != null) {
             this.dispose();
             new Panel_de_control().setVisible(true);
+        } else if (control_entrada.equals("1") && tipo_usuario == null) {
+            JOptionPane.showMessageDialog(null, "DEBE PEDIR RANGO DE USUARIO A UN ADMINISTRADOR");
         } else {
             JOptionPane.showMessageDialog(null, "EL USUARIO O LA PASSWORD SON INCORRECTOS");
         } 
@@ -55,6 +54,8 @@ public class Login extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, ex);
     }
 }
+
+
 
 
 
