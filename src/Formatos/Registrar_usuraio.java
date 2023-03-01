@@ -13,6 +13,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
     
     public Registrar_usuraio() {
         initComponents();
+        reg_usaurio.requestFocus(true);
         conf_contraseña.setText("");
         contraseña.setText("");
         guardar.setEnabled(false);
@@ -75,9 +76,21 @@ public class Registrar_usuraio extends javax.swing.JFrame {
 
         reg_idusuario.setEditable(false);
 
+        reg_usaurio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reg_usaurioActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("NOMBRE DE USUARIO");
 
         jLabel3.setText("CONF. CONTRASEÑA");
+
+        reg_nombre_empleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reg_nombre_empleadoActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("NOMBRE DE EMPLEADO");
 
@@ -237,18 +250,28 @@ public class Registrar_usuraio extends javax.swing.JFrame {
 
     private void conf_contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conf_contraseñaActionPerformed
         pass2=new String(conf_contraseña.getPassword());
-        if(pass1.equals(pass2)){
+        if(pass2.equals(pass1)){
             contraseña_correcta.setText("CONTRASEÑA CORRECTA");
             guardar.setEnabled(true);
         }
         else{
             contraseña_correcta.setText("CONTRASEÑA INCORRECTA");
+            reg_nombre_empleado.requestFocus(true);
         }
     }//GEN-LAST:event_conf_contraseñaActionPerformed
 
     private void contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraseñaActionPerformed
         pass1=new String(contraseña.getPassword());
+        conf_contraseña.requestFocus(true);
     }//GEN-LAST:event_contraseñaActionPerformed
+
+    private void reg_usaurioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reg_usaurioActionPerformed
+        contraseña.requestFocus(true);
+    }//GEN-LAST:event_reg_usaurioActionPerformed
+
+    private void reg_nombre_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reg_nombre_empleadoActionPerformed
+        phone.requestFocus(true);
+    }//GEN-LAST:event_reg_nombre_empleadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,7 +284,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

@@ -159,6 +159,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="reg_usaurio">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reg_usaurioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -171,6 +174,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="reg_nombre_empleado">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reg_nombre_empleadoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>

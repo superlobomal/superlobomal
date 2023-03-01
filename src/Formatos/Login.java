@@ -28,7 +28,7 @@ public class Login extends javax.swing.JFrame {
     String nombre_usuario = log_usuario.getText();
     String password = new String(this.password_l.getPassword());
     String control_entrada = "";
-    String sql = "SELECT Nombre_usuario,password FROM usuarios WHERE Nombre_usuario=? AND password=?";
+    String sql = "SELECT Nombre_usuario,password,tipo_usuario FROM usuarios WHERE Nombre_usuario=? AND password=?";
     
     try {
         PreparedStatement ps = cn.prepareStatement(sql);
@@ -37,7 +37,12 @@ public class Login extends javax.swing.JFrame {
         ResultSet rs = ps.executeQuery(); 
                        
         if (rs.next()) {
-            control_entrada = "1";
+            String tipo_usuario = rs.getString("tipo_usuario");
+            if (tipo_usuario == null) {
+                JOptionPane.showMessageDialog(null, "DEBE PEDIR RANGO DE USUARIO A UN ADMINISTRADO");
+            } else if (tipo_usuario.equals("Usuario") || tipo_usuario.equals("Admin")) {
+                control_entrada = "1";
+            }
         }
                                                    
         if (control_entrada.equals("1")){
@@ -50,6 +55,7 @@ public class Login extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, ex);
     }
 }
+
 
 
 
@@ -216,7 +222,7 @@ public class Login extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

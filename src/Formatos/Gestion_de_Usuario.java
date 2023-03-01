@@ -31,7 +31,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         
         try {
             PreparedStatement psU= cn.prepareStatement("UPDATE usuarios SET idusuarios='"+id_usuario.getText()+"',Nombre_usuario='"+usuario.getText()+"',"
-                    + "personal='"+nom_empleado.getText()+"',tipo_usuario='"+tip_de_usuario+"',contraseña='"+contraseña.getText()+"',phone='"+phone.getText()+"'"
+                    + "personal='"+nom_empleado.getText()+"',tipo_usuario='"+tip_de_usuario+"',password='"+contraseña.getText()+"',phone='"+phone.getText()+"'"
                             + "WHERE idusuarios='"+id_usuario.getText()+"'");
                     psU.executeUpdate();
                     
@@ -44,7 +44,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
     model2.getDataVector().clear();
     
     String[] registros = new String[8];
-    String sql = "SELECT idusuarios,Nombre_usuario,personal,contraseña,tipo_usuario,phone FROM usuarios where CONCAT (idusuarios,'',Nombre_usuario,'',personal,'',phone)LIKE '%"+valor+"%'";
+    String sql = "SELECT idusuarios,Nombre_usuario,personal,password,tipo_usuario,phone FROM usuarios where CONCAT (idusuarios,'',Nombre_usuario,'',personal,'',phone)LIKE '%"+valor+"%'";
 
     try {
         Statement st = cn.createStatement();
@@ -55,7 +55,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             registros[0] = rs.getString("idusuarios");
             registros[1] = rs.getString("Nombre_usuario");
             registros[3] = rs.getString("personal");
-            registros[2] = rs.getString("contraseña");
+            registros[2] = rs.getString("password");
             registros[5] = rs.getString("tipo_usuario");
             registros[4] = rs.getString("phone");
             
@@ -76,7 +76,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
     model2.getDataVector().clear();
     
     String[] registros = new String[8];
-    String sql = "SELECT idusuarios,Nombre_usuario,personal,contraseña,tipo_usuario,phone FROM usuarios";
+    String sql = "SELECT idusuarios,Nombre_usuario,personal,password,tipo_usuario,phone FROM usuarios";
 
     try {
         Statement st = cn.createStatement();
@@ -87,7 +87,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             registros[0] = rs.getString("idusuarios");
             registros[1] = rs.getString("Nombre_usuario");
             registros[2] = rs.getString("personal");
-            registros[3] = rs.getString("contraseña");
+            registros[3] = rs.getString("password");
             registros[4] = rs.getString("tipo_usuario");
             registros[5] = rs.getString("phone");
             
@@ -114,7 +114,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
       }
       void cargar_datos(){
     String[] registros = new String[7];
-    String sql = "SELECT Nombre_usuario,personal,contraseña,tipo_usuario,phone FROM usuarios WHERE idusuarios = '"+id_usuario.getText()+"'";
+    String sql = "SELECT Nombre_usuario,personal,password,tipo_usuario,phone FROM usuarios WHERE idusuarios = '"+id_usuario.getText()+"'";
 
     try {
         Statement st = cn.createStatement();
@@ -124,7 +124,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         while (rs.next()) {
             registros[0] = rs.getString("Nombre_usuario");
             registros[1] = rs.getString("personal");
-            registros[2] = rs.getString("contraseña");
+            registros[2] = rs.getString("password");
             registros[3] = rs.getString("tipo_usuario");
             registros[4] = rs.getString("phone");
            
@@ -213,7 +213,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 0))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 0))); // NOI18N
 
         jLabel1.setText("ID USUARIO");
 
@@ -288,6 +288,20 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
             }
         });
         t_usuario.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        t_usuario.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                t_usuarioAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        t_usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                t_usuarioKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(t_usuario);
         if (t_usuario.getColumnModel().getColumnCount() > 0) {
             t_usuario.getColumnModel().getColumn(0).setMinWidth(80);
@@ -565,6 +579,14 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_id_usuarioKeyReleased
 
+    private void t_usuarioAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_t_usuarioAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_t_usuarioAncestorAdded
+
+    private void t_usuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_t_usuarioKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_t_usuarioKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -576,7 +598,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
