@@ -44,6 +44,7 @@ public class Panel_de_control extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         cerrar_cesion.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         cerrar_cesion.setText("CERRAR CESION");

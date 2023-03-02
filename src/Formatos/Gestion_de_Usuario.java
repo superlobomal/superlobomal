@@ -19,7 +19,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
     }
      void borrar_datos(){
         try {
-            PreparedStatement psU= cn.prepareStatement("DELETE FROM usuarios WHERE idusuario='"+id_usuario.getText()+"'");
+            PreparedStatement psU= cn.prepareStatement("DELETE FROM usuarios WHERE idusuarios='"+id_usuario.getText()+"'");
                     psU.executeUpdate();
                     
         } catch (Exception e) {
@@ -614,7 +614,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
