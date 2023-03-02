@@ -120,7 +120,7 @@ public class Registrar_usuraio extends javax.swing.JFrame {
 
         contraseña_correcta.setBackground(new java.awt.Color(204, 255, 204));
         contraseña_correcta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        contraseña_correcta.setForeground(new java.awt.Color(255, 255, 255));
+        contraseña_correcta.setForeground(new java.awt.Color(0, 255, 0));
 
         conf_contraseña.setText("jPasswordField1");
         conf_contraseña.addActionListener(new java.awt.event.ActionListener() {
