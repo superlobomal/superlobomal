@@ -44,7 +44,7 @@ public class Login extends javax.swing.JFrame {
                                                    
         if (control_entrada.equals("1") && tipo_usuario != null) {
             this.dispose();
-            new Panel_de_control().setVisible(true);
+            new Panel_de_control(tipo_usuario).setVisible(true);
         } else if (control_entrada.equals("1") && tipo_usuario == null) {
             JOptionPane.showMessageDialog(null, "DEBE PEDIR RANGO DE USUARIO A UN ADMINISTRADOR");
         } else {

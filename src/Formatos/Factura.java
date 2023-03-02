@@ -19,6 +19,29 @@ public class Factura extends javax.swing.JFrame {
         initComponents();
         buscar.requestFocus(true);
     }
+    void actualizar_cantidad_articulo(String id_articulo, float cantidad_utilizada) {
+    try {
+        
+        PreparedStatement psU= cn.prepareStatement("UPDATE articulo SET amount_art = amount_art - ? WHERE id_art = ?");
+        psU.setFloat(1, cantidad_utilizada);
+        psU.setString(2, id_articulo);
+        psU.executeUpdate();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, ex);
+    }
+}
+
+    void eliminarDatosFactura() {
+    DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();
+    int[] filasSeleccionadas = t_factura.getSelectedRows();
+    for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+        model2.removeRow(filasSeleccionadas[i]);
+    }
+    sumar_productos();
+}
+
+    
+    
          
     void limpiar(){
          id_articulo.setText("");
@@ -233,6 +256,11 @@ public class Factura extends javax.swing.JFrame {
         });
 
         jButton3.setText("IMPRIMIR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -596,8 +624,12 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        eliminarDatosFactura();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

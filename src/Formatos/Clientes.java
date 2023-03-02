@@ -294,6 +294,11 @@ public class Clientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        t_cliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_clienteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(t_cliente);
         if (t_cliente.getColumnModel().getColumnCount() > 0) {
             t_cliente.getColumnModel().getColumn(0).setMinWidth(80);
@@ -619,6 +624,21 @@ public class Clientes extends javax.swing.JFrame {
     private void id_clientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_clientKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_id_clientKeyReleased
+
+    private void t_clienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_clienteMouseClicked
+        int fila = t_cliente.getSelectedRow();
+        if (fila>=0){
+            id_client.setText(t_cliente.getValueAt(fila,0).toString());
+            client.setText(t_cliente.getValueAt(fila,1).toString());
+            type_client.setText(t_cliente.getValueAt(fila,2).toString());
+            dir_client.setText(t_cliente.getValueAt(fila,3).toString());
+            phone.setText(t_cliente.getValueAt(fila,4).toString());
+            lim_cred.setText(t_cliente.getValueAt(fila,5).toString());
+            rnc.setText(t_cliente.getValueAt(fila,6).toString());
+            ncf.setText(t_cliente.getValueAt(fila,7).toString());
+            id_client.requestFocus(true);
+        }
+    }//GEN-LAST:event_t_clienteMouseClicked
 
     /**
      * @param args the command line arguments

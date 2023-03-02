@@ -213,7 +213,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 0))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE CLIENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 0))); // NOI18N
 
         jLabel1.setText("ID USUARIO");
 
@@ -289,12 +289,17 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         });
         t_usuario.setSelectionForeground(new java.awt.Color(0, 0, 0));
         t_usuario.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 t_usuarioAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+        });
+        t_usuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_usuarioMouseClicked(evt);
             }
         });
         t_usuario.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -587,9 +592,20 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_t_usuarioKeyReleased
 
-    /**
-     * @param args the command line arguments
-     */
+    private void t_usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_usuarioMouseClicked
+        int fila = t_usuario.getSelectedRow();
+        if (fila>=0){
+            id_usuario.setText(t_usuario.getValueAt(fila,0).toString());
+            usuario.setText(t_usuario.getValueAt(fila,1).toString());
+            contraseña.setText(t_usuario.getValueAt(fila,2).toString());
+            nom_empleado.setText(t_usuario.getValueAt(fila,3).toString());
+            phone.setText(t_usuario.getValueAt(fila,4).toString());
+            tipo_de_usuario.setSelectedItem(t_usuario.getValueAt(fila,5).toString());            
+            usuario.requestFocus(true);
+        }
+    }//GEN-LAST:event_t_usuarioMouseClicked
+
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
