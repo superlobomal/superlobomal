@@ -44,7 +44,6 @@ public class Panel_de_control extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
 
         cerrar_cesion.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         cerrar_cesion.setText("CERRAR CESION");
@@ -223,8 +222,6 @@ public class Panel_de_control extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Panel_de_control.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

@@ -15,6 +15,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
         initComponents();
         //cargar();
     }
+    
 
     void borrar_datos() {
         try {
@@ -34,7 +35,9 @@ public class Registrar_articulo extends javax.swing.JFrame {
 
         String conteo = String.valueOf(tipo_de_conteo.getSelectedItem());
         try {
-            PreparedStatement psU = cn.prepareStatement("UPDATE articulo SET des_art='"+des_art.getText()+"',codigo='"+codigo.getText() + "',amount_art='" + stock.getText() + "',price_buy='" + precio_compra.getText() + "',price_sell='" + precio_venta.getText() + "',reference='" + referencia.getText() + "',reorder='" + min_stock.getText() + "',container='" +conteo+"',itbis='" +itbisit+"'"
+            PreparedStatement psU = cn.prepareStatement("UPDATE articulo SET des_art='"+des_art.getText()+"',tipo_art='"+tipo_de_articulo.getText()+"',codigo='"+codigo.getText() + "'"
+                    + ",amount_art='" + stock.getText() + "',price_buy='" + precio_compra.getText() + "',price_sell='" + precio_venta.getText() + "'"
+                            + ",reference='" + referencia.getText() + "',reorder='" + min_stock.getText() + "',container='" +conteo+"',itbis='" +itbisit+"'"
                     + "WHERE id_art='" + id_articulo.getText() + "'");
             psU.executeUpdate();
 
@@ -47,8 +50,8 @@ public class Registrar_articulo extends javax.swing.JFrame {
         DefaultTableModel model2 = (DefaultTableModel) t_art.getModel();
         model2.getDataVector().clear();
 
-        String[] registros = new String[10];
-        String sql = "SELECT id_art,codigo,des_art,amount_art,price_buy,price_sell,itbis,container,reference,reorder FROM articulo where CONCAT (des_art)LIKE '%" + valor + "%' limit 100";
+        String[] registros = new String[11];
+        String sql = "SELECT id_art,codigo,des_art,amount_art,price_buy,price_sell,itbis,container,reference,reorder,tipo_art FROM articulo where CONCAT (des_art,'',tipo_art,'',codigo,'',des_art,reference)LIKE '%" + valor + "%' limit 100";
 
         try {
             Statement st = cn.createStatement();
@@ -65,6 +68,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
                 registros[7] = rs.getString("container");
                 registros[8] = rs.getString("reference");
                 registros[9] = rs.getString("reorder");
+                registros[10] = rs.getString("tipo_art");
 
                 model2.addRow(registros);
             }
@@ -81,8 +85,8 @@ public class Registrar_articulo extends javax.swing.JFrame {
         DefaultTableModel model2 = (DefaultTableModel) t_art.getModel();
         model2.getDataVector().clear();
 
-        String[] registros = new String[10];
-        String sql = "SELECT id_art,codigo,des_art,amount_art,price_buy,price_sell,itbis,container,reference,reorder FROM articulo order by des_art asc limit 5";
+        String[] registros = new String[12];
+        String sql = "SELECT id_art,codigo,des_art,amount_art,price_buy,price_sell,itbis,container,reference,reorder,tipo_art FROM articulo order by des_art asc limit 5";
 
         try {
             Statement st = cn.createStatement();
@@ -99,6 +103,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
                 registros[7] = rs.getString("container");
                 registros[8] = rs.getString("reference");
                 registros[9] = rs.getString("reorder");
+                registros[10] = rs.getString("tipo_art");
 
                 model2.addRow(registros);
             }
@@ -122,12 +127,13 @@ public class Registrar_articulo extends javax.swing.JFrame {
         min_stock.setText("");
         itbis.setSelectedIndex(0);
         tipo_de_conteo.setSelectedIndex(0);
+        tipo_de_articulo.setText("");
         id_articulo.requestFocus(true);
     }
 
     void cargar_datos() {
-        String[] registros = new String[9];
-        String sql = "SELECT des_art,codigo,amount_art,price_buy,price_sell,itbis,container,reference,reorder FROM articulo WHERE id_art = '" + id_articulo.getText() + "'";
+        String[] registros = new String[12];
+        String sql = "SELECT des_art,codigo,amount_art,price_buy,price_sell,itbis,container,reference,reorder,tipo_art FROM articulo WHERE id_art = '" + id_articulo.getText() + "'";
 
         try {
             Statement st = cn.createStatement();
@@ -144,6 +150,8 @@ public class Registrar_articulo extends javax.swing.JFrame {
                 registros[6] = rs.getString("container");
                 registros[7] = rs.getString("reference");
                 registros[8] = rs.getString("reorder");  
+                registros[9] = rs.getString("tipo_art");  
+                
               
                
             }
@@ -182,6 +190,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
             tipo_de_conteo.setSelectedItem(registros[6]);
             referencia.setText(registros[7]);
             min_stock.setText(registros[8]);
+            tipo_de_articulo.setText(registros[9]);
             
             
 
@@ -202,7 +211,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
             String sqlguardar = "";
             sqlguardar = "INSERT INTO articulo  VALUES (null,'" + codigo.getText() + "','" + des_art.getText() + "','" + stock.getText() + "',"
                     + "'" + precio_compra.getText() + "','" + precio_venta.getText() + "','"+itbifl+"','"+conteo+"',"
-                    + "'" + referencia.getText() + "','" + min_stock.getText()+"')";
+                    + "'" + referencia.getText() + "','" + min_stock.getText()+"','" + tipo_de_articulo.getText()+"')";
 
             PreparedStatement sql = cn.prepareStatement(sqlguardar);
 
@@ -260,6 +269,8 @@ public class Registrar_articulo extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         min_stock = new javax.swing.JTextField();
         itbis = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        tipo_de_articulo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("REGISTRO DE ARTICULOS");
@@ -270,6 +281,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO ARTICULO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 0))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("ID ARTICULO");
 
         id_articulo.addActionListener(new java.awt.event.ActionListener() {
@@ -290,6 +302,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel2.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("DES. DE ARTICULO");
 
         codigo.addActionListener(new java.awt.event.ActionListener() {
@@ -299,9 +312,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("CODIGO");
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("STOCK");
 
         precio_compra.addActionListener(new java.awt.event.ActionListener() {
@@ -311,6 +326,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel5.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("PRECIO DE COMPRA");
 
         precio_venta.addActionListener(new java.awt.event.ActionListener() {
@@ -320,6 +336,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel6.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("PRECIO DE VENTA");
 
         save.setText("GUARDAR");
@@ -348,11 +365,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID ARTICULO", "DES. DE ARTCULO", "CODIGO", "CANT.ARTK.STK", "PRECIO DE COMPRA", "PRECIO DE VENTA", "ITBIS", "TIPO DE CONTEO", "REFERENCIA", "CANTIDAD MIN EN STK"
+                "ID ARTICULO", "DES. DE ARTCULO", "CODIGO", "CANT.ARTK.STK", "PRECIO DE COMPRA", "PRECIO DE VENTA", "ITBIS", "TIPO DE CONTEO", "REFERENCIA", "CANTIDAD MIN EN STK", "TIPO DE ARTICULO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -360,6 +377,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
             }
         });
         t_art.setGridColor(new java.awt.Color(102, 102, 102));
+        t_art.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_artMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(t_art);
         if (t_art.getColumnModel().getColumnCount() > 0) {
             t_art.getColumnModel().getColumn(0).setMinWidth(80);
@@ -381,9 +403,12 @@ public class Registrar_articulo extends javax.swing.JFrame {
             t_art.getColumnModel().getColumn(8).setMaxWidth(90);
             t_art.getColumnModel().getColumn(9).setMinWidth(150);
             t_art.getColumnModel().getColumn(9).setMaxWidth(150);
+            t_art.getColumnModel().getColumn(10).setMinWidth(120);
+            t_art.getColumnModel().getColumn(10).setMaxWidth(120);
         }
 
         jLabel7.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("BUSCAR");
 
         buscar_nombre.addActionListener(new java.awt.event.ActionListener() {
@@ -412,9 +437,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel8.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("ITBIS");
 
         jLabel9.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("TIPO DE CONTEO ");
 
         tipo_de_conteo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione tipo de conteo", "UNIDAD", "LIBRA", "CAJA", "FARDO" }));
@@ -425,9 +452,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
         });
 
         jLabel10.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("REFERENCIA");
 
         jLabel11.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("CANTIDAD MIN STK");
 
         min_stock.addActionListener(new java.awt.event.ActionListener() {
@@ -443,148 +472,146 @@ public class Registrar_articulo extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel12.setText("TIPO DE ARTICULO");
+
+        tipo_de_articulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipo_de_articuloActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1161, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(id_articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(des_art, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(precio_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tipo_de_conteo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(itbis, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(precio_venta, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(80, 80, 80)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(referencia, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(min_stock, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
-                        .addGap(30, 30, 30))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(50, 50, 50)
+                        .addComponent(id_articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel5)
+                        .addGap(26, 26, 26)
+                        .addComponent(precio_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel10)
+                        .addGap(64, 64, 64)
+                        .addComponent(referencia, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(16, 16, 16)
+                        .addComponent(des_art, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(precio_venta, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel11)
+                        .addGap(21, 21, 21)
+                        .addComponent(min_stock, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(82, 82, 82)
+                        .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel8)
+                        .addGap(117, 117, 117)
+                        .addComponent(itbis, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel12)
+                        .addGap(25, 25, 25)
+                        .addComponent(tipo_de_articulo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(90, 90, 90)
+                        .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel9)
+                        .addGap(48, 48, 48)
+                        .addComponent(tipo_de_conteo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
                         .addComponent(mod_datos)
-                        .addGap(18, 18, 18)
+                        .addGap(13, 13, 13)
                         .addComponent(eliminar_datos, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(13, 13, 13)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(13, 13, 13)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addGap(173, 173, 173)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buscar_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 152, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addGap(4, 4, 4)
+                        .addComponent(buscar_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(id_articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precio_compra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(referencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(des_art, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(precio_venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(min_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(itbis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(tipo_de_articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(id_articulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(des_art, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(referencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(precio_compra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel11)
-                                    .addComponent(min_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(precio_venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(11, 11, 11)
-                        .addComponent(itbis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
+                            .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tipo_de_conteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mod_datos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eliminar_datos, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buscar_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(eliminar_datos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(mod_datos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                            .addComponent(buscar_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -651,6 +678,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
             min_stock.requestFocus(true);
             return;
         }
+        if (tipo_de_articulo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "EL CAMPO CANTIDAD MIN STK NO PUDE ESTAR BACIA");
+            tipo_de_articulo.requestFocus(true);
+            return;
+        }
         guardar();
         limpiar();
         cargar_datos();
@@ -714,6 +746,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
             min_stock.requestFocus(true);
             return;
         }
+        if (tipo_de_articulo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "EL CAMPO CANTIDAD MIN STK NO PUDE ESTAR BACIA");
+            tipo_de_articulo.requestFocus(true);
+            return;
+        }
 
         actualizar_datos();        
         cargar();
@@ -765,6 +802,11 @@ public class Registrar_articulo extends javax.swing.JFrame {
             min_stock.requestFocus(true);
             return;
         }
+        if (tipo_de_articulo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "EL CAMPO CANTIDAD MIN STK NO PUDE ESTAR BACIA");
+            tipo_de_articulo.requestFocus(true);
+            return;
+        }
         borrar_datos();
         limpiar();
         cargar();
@@ -799,6 +841,28 @@ public class Registrar_articulo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_codigoActionPerformed
 
+    private void tipo_de_articuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_de_articuloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipo_de_articuloActionPerformed
+
+    private void t_artMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_artMouseClicked
+        int fila = t_art.getSelectedRow();
+        if (fila>=0){
+            id_articulo.setText(t_art.getValueAt(fila,0).toString());
+            des_art.setText(t_art.getValueAt(fila,1).toString());
+            codigo.setText(t_art.getValueAt(fila,2).toString());
+            stock.setText(t_art.getValueAt(fila,3).toString());
+            precio_compra.setText(t_art.getValueAt(fila,4).toString());
+            precio_venta.setText(t_art.getValueAt(fila,5).toString());
+            itbis.setSelectedItem(t_art.getValueAt(fila,6).toString());
+            tipo_de_conteo.setSelectedItem(t_art.getValueAt(fila,7).toString());
+            referencia.setText(t_art.getValueAt(fila,8).toString());
+            min_stock.setText(t_art.getValueAt(fila,9).toString());
+            tipo_de_articulo.setText(t_art.getValueAt(fila,10).toString());
+            id_articulo.requestFocus(true);
+        }
+    }//GEN-LAST:event_t_artMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -828,10 +892,6 @@ public class Registrar_articulo extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -853,6 +913,7 @@ public class Registrar_articulo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -871,11 +932,13 @@ public class Registrar_articulo extends javax.swing.JFrame {
     private javax.swing.JButton save;
     private javax.swing.JTextField stock;
     private javax.swing.JTable t_art;
+    private javax.swing.JTextField tipo_de_articulo;
     private javax.swing.JComboBox<String> tipo_de_conteo;
     // End of variables declaration//GEN-END:variables
 
     ConexionDB cc = new ConexionDB();
     Connection cn = cc.conectar();
 
+   
     
 }

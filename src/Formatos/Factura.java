@@ -2,42 +2,44 @@
 package Formatos;
 
 import Poo2.ConexionDB;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
 public class Factura extends javax.swing.JFrame {
 
-   
+     Map<String,Float> productos=new HashMap<String,Float>();   
+     
     public Factura() {
         initComponents();
         buscar.requestFocus(true);
     }
-    void actualizar_cantidad_articulo(String id_articulo, float cantidad_utilizada) {
-    try {
-        
-        PreparedStatement psU= cn.prepareStatement("UPDATE articulo SET amount_art = amount_art - ? WHERE id_art = ?");
-        psU.setFloat(1, cantidad_utilizada);
-        psU.setString(2, id_articulo);
-        psU.executeUpdate();
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, ex);
-    }
-}
+   
 
     void eliminarDatosFactura() {
     DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();
     int[] filasSeleccionadas = t_factura.getSelectedRows();
     for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
         model2.removeRow(filasSeleccionadas[i]);
+        String articulo=(String) new ArrayList(productos.keySet()).get(i);
+        productos.remove(articulo);
+        System.out.println(productos.size());
     }
     sumar_productos();
+    
+    
 }
 
     
@@ -77,7 +79,57 @@ public class Factura extends javax.swing.JFrame {
         sub_total_general.setText(formateador.format(sub_total_g2));
         
     }
-   void llenar_datos(){
+    
+    void actualizar_cantidad_factura(String id_articulo, float cantidad) {
+    try {
+        // Consultar la cantidad actual del artículo en la base de datos
+        String sql = "SELECT amount_art FROM articulo WHERE id_art = ?";
+        PreparedStatement ps = cn.prepareStatement(sql);
+        ps.setString(1, id_articulo);
+        ResultSet rs = ps.executeQuery();
+        float cantidad_actual = 0.0f;
+        if (rs.next()) {
+            cantidad_actual = rs.getFloat("amount_art");
+        }
+        
+        // Actualizar la cantidad en la base de datos
+        float cantidad_nueva = cantidad_actual - cantidad;
+        sql = "UPDATE articulo SET amount_art = ? WHERE id_art = ?";
+        ps = cn.prepareStatement(sql);
+        ps.setFloat(1, cantidad_nueva);
+        ps.setString(2, id_articulo);
+        ps.executeUpdate();
+        
+        // Actualizar la cantidad en la tabla "t_factura"
+        DefaultTableModel model = (DefaultTableModel) t_factura.getModel();
+        int numRows = model.getRowCount();
+        int idColumnIndex = 0; // La columna donde se encuentra el id_articulo
+        int cantidadColumnIndex = 2; // La columna donde se encuentra la cantidad
+        int rowIndex = -1;
+        for (int i = 0; i < numRows; i++) {
+            String id_articulo_factura = (String) model.getValueAt(i, idColumnIndex);
+            if (id_articulo_factura.equals(id_articulo)) {
+                rowIndex = i;
+                break;
+            }
+        }
+        if (rowIndex != -1) {
+            float cantidad_actual_tabla = (float) model.getValueAt(rowIndex, cantidadColumnIndex);
+            float cantidad_nueva_tabla = cantidad_actual_tabla - cantidad;
+            model.setValueAt(cantidad_nueva_tabla, rowIndex, cantidadColumnIndex);
+        }
+        
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, ex);
+    }
+}
+
+
+
+
+
+
+   void llenar_datoss(){
     DecimalFormat formateador = new DecimalFormat("############.##");
     DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();            
     String[] registros = new String[10];
@@ -130,8 +182,12 @@ public class Factura extends javax.swing.JFrame {
     registros[5] = formateador.format(sub_total2);
     registros[6] = formateador.format(total2);
     model2.addRow(registros);
+    productos.put(id_articulo.getText(),cantidad2);
     t_factura.setModel(model2);
+    
+    
 }
+
 
     void cargar_articulo(String valor) {
         
@@ -614,7 +670,8 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarKeyReleased
 
     private void cantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantidadActionPerformed
-        llenar_datos();
+        
+        llenar_datoss();
         sumar_productos();
         limpiar();
     }//GEN-LAST:event_cantidadActionPerformed
@@ -628,7 +685,12 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    
+                    productos.forEach((t, u) -> {
+                        actualizar_cantidad_factura(t,u);
+                    });
+                    
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -656,7 +718,6 @@ public class Factura extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Factura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -708,4 +769,8 @@ public class Factura extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     ConexionDB cc = new ConexionDB();
     Connection cn = cc.conectar();
+
+    private void llenar_datos(JTextField id_articulo, JTextField cantidad) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

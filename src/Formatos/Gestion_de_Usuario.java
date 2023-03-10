@@ -19,7 +19,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
     }
      void borrar_datos(){
         try {
-            PreparedStatement psU= cn.prepareStatement("DELETE FROM usuarios WHERE idusuarios='"+id_usuario.getText()+"'");
+            PreparedStatement psU= cn.prepareStatement("DELETE FROM usuarios WHERE idusuario='"+id_usuario.getText()+"'");
                     psU.executeUpdate();
                     
         } catch (Exception e) {
@@ -86,10 +86,11 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         while (rs.next()) {
             registros[0] = rs.getString("idusuarios");
             registros[1] = rs.getString("Nombre_usuario");
-            registros[2] = rs.getString("personal");
-            registros[3] = rs.getString("password");
-            registros[4] = rs.getString("tipo_usuario");
-            registros[5] = rs.getString("phone");
+            registros[3] = rs.getString("personal");
+            registros[2] = rs.getString("password");
+            registros[5] = rs.getString("tipo_usuario");
+            registros[4] = rs.getString("phone");
+            
             
            model2.addRow(registros);
         }
@@ -122,11 +123,13 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         
 
         while (rs.next()) {
-            registros[0] = rs.getString("Nombre_usuario");
-            registros[1] = rs.getString("personal");
+            registros[0] = rs.getString("idusuarios");
+            registros[1] = rs.getString("Nombre_usuario");
+            registros[3] = rs.getString("personal");
             registros[2] = rs.getString("password");
-            registros[3] = rs.getString("tipo_usuario");
+            registros[5] = rs.getString("tipo_usuario");
             registros[4] = rs.getString("phone");
+            
            
            
         }
@@ -614,7 +617,7 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -628,10 +631,6 @@ public class Gestion_de_Usuario extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Gestion_de_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
