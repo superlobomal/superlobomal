@@ -41,7 +41,9 @@ public class Clientes extends javax.swing.JFrame {
     model2.getDataVector().clear();
     
     String[] registros = new String[8];
-    String sql = "SELECT id_cliente,cliente,type_client,dir_cliente,phone,lim_cred,rnc,ncf FROM cliente where CONCAT (cliente,'',id_cliente,'',phone,'',rnc)LIKE '%"+valor+"%'";
+    String sql = "SELECT id_cliente,cliente,type_client,dir_cliente,"
+            + "phone,lim_cred,"
+            + "rnc,ncf FROM cliente where CONCAT (cliente,'',id_cliente,'',phone,'',rnc)LIKE '%"+valor+"%'";
 
     try {
         Statement st = cn.createStatement();
@@ -224,6 +226,11 @@ public class Clientes extends javax.swing.JFrame {
 
         jLabel1.setText("ID CLIENTE");
 
+        id_client.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                id_clientMouseClicked(evt);
+            }
+        });
         id_client.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 id_clientActionPerformed(evt);
@@ -442,7 +449,7 @@ public class Clientes extends javax.swing.JFrame {
                     .addComponent(buscar_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -626,7 +633,7 @@ public class Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_id_clientKeyReleased
 
     private void t_clienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_clienteMouseClicked
-        int fila = t_cliente.getSelectedRow();
+       /*int fila = t_cliente.getSelectedRow();
         if (fila>=0){
             id_client.setText(t_cliente.getValueAt(fila,0).toString());
             client.setText(t_cliente.getValueAt(fila,1).toString());
@@ -637,8 +644,20 @@ public class Clientes extends javax.swing.JFrame {
             rnc.setText(t_cliente.getValueAt(fila,6).toString());
             ncf.setText(t_cliente.getValueAt(fila,7).toString());
             id_client.requestFocus(true);
+        }*/
+        {int fila2 = t_cliente.getSelectedRow();
+        if (fila2>=0){
+            Factura.id_cliente.setText(t_cliente.getValueAt(fila2,0).toString());
+            Factura.nom_cliente.setText(t_cliente.getValueAt(fila2,1).toString());
+            Factura.buscar.requestFocus();
+           }
+        this.dispose();
         }
     }//GEN-LAST:event_t_clienteMouseClicked
+
+    private void id_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_id_clientMouseClicked
+        
+    }//GEN-LAST:event_id_clientMouseClicked
 
     /**
      * @param args the command line arguments
@@ -665,6 +684,12 @@ public class Clientes extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
