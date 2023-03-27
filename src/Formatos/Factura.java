@@ -76,36 +76,36 @@ public class Factura extends javax.swing.JFrame {
             buscar.requestFocus(true);
     }
     
-    void sumar_productos(){
-        DecimalFormat formateador = new DecimalFormat("###,###,###,###.##");
-        DecimalFormat formateador2 = new DecimalFormat("############.##");
-        
-        DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();
-        
-        float total_g = 0,total_g2 = 0;
-        float itbis_g = 0, itbis_g2 = 0;
-        float sub_total_g = 0, sub_total_g2 = 0;
-        
-        for (int i=0; i< t_factura.getRowCount(); i++){
-            total_g = Float.parseFloat(t_factura.getValueAt(i, 6).toString());
-            total_g2=total_g2+total_g;
-            
-            itbis_g = Float.parseFloat(t_factura.getValueAt(i, 4).toString());
-            itbis_g2=itbis_g2+itbis_g;
-            
-            sub_total_g = Float.parseFloat(t_factura.getValueAt(i, 5).toString());
-            sub_total_g2=sub_total_g2+sub_total_g;
-            
-        }
-        total_general.setText(formateador.format(total_g2));
-        itbis_general.setText(formateador.format(itbis_g2));
-        sub_total_general.setText(formateador.format(sub_total_g2));
-        
-        sub_total_general2=(formateador2.format(total_g2));
-        itbis_general2=(formateador2.format(itbis_g2));
-        sub_total_general2=(formateador2.format(sub_total_g2));
-        
+    void sumar_productos() {
+    DecimalFormat formateador = new DecimalFormat("###,###,###,###.##");
+    DecimalFormat formateador2 = new DecimalFormat("############.##");
+
+    DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();
+
+    float total_g = 0, total_g2 = 0;
+    float itbis_g = 0, itbis_g2 = 0;
+    float sub_total_g = 0, sub_total_g2 = 0;
+
+    for (int i = 0; i < t_factura.getRowCount(); i++) {
+        total_g = Float.parseFloat(t_factura.getValueAt(i, 6).toString());
+        total_g2 += total_g;
+
+        itbis_g = Float.parseFloat(t_factura.getValueAt(i, 4).toString());
+        itbis_g2 += itbis_g;
+
+        sub_total_g = Float.parseFloat(t_factura.getValueAt(i, 5).toString());
+        sub_total_g2 += sub_total_g;
     }
+
+    total_general.setText(formateador.format(total_g2));
+    itbis_general.setText(formateador.format(itbis_g2));
+    sub_total_general.setText(formateador.format(sub_total_g2));
+
+    sub_total_general2 = (formateador2.format(sub_total_g2));
+    itbis_general2 = (formateador2.format(itbis_g2));
+    total_general2 = (formateador2.format(total_g2));
+}
+
     
     void actualizar_cantidad_factura(String id_articulo, float cantidad) {
     try {
@@ -157,7 +157,7 @@ public class Factura extends javax.swing.JFrame {
 
 
    void llenar_datoss(){
-    DecimalFormat formateador = new DecimalFormat("###,###,###,###.##");
+    DecimalFormat formateador = new DecimalFormat("############.##");
     DefaultTableModel model2 = (DefaultTableModel) t_factura.getModel();            
     String[] registros = new String[10];
     
