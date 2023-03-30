@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +32,50 @@ public class Factura extends javax.swing.JFrame {
         imprimir.setEnabled(false);
     }
     
+    void guardar_detalle_factura(){
+        
+        for(int i=0; i<t_factura.getRowCount(); i++) {        
+        try {        
+            String sql2="";            
+            sql2= "INSERT INTO detalle_factura (id_factura,id_articulo,des_articulo,cantidad,precio,"
+                    + "itbis,importe) VALUES ( '"+num_factura.getText()+"','"+t_factura.getValueAt(i,0)+"',"
+                    + "'"+t_factura.getValueAt(i, 1)+"','"+t_factura.getValueAt(i, 2)+"'"
+                    + ",'"+t_factura.getValueAt(i, 3)+"','"+t_factura.getValueAt(i, 4)+"','"+t_factura.getValueAt(i, 5)+"')"; 
+            
+            PreparedStatement psz2=cn.prepareStatement(sql2);
+             
+            
+            int n;
+             n = psz2.executeUpdate();
+            if (n>0) {
+                
+            }
+            } catch (Exception e) {
+        }
+                
+            }       
+    }
+    
+    void guardar_factura(){
+        try {
+            String sql2="";
+            sql2= "INSERT INTO factura (num_factura,tipo_factura,fecha_factura,sub_total,itbis,"
+                    + "total,id_cliente,nom_cliente) VALUES"
+                    + " ('"+num_factura.getText()+"','"+tipo_factura+"',now(),'"+sub_total_general2+"'"
+                    + ",'"+itbis_general2+"','"+total_general2+"'"
+                    + ",'"+id_cliente.getText()+"','"+nom_cliente.getText()+"')"; 
+            
+            PreparedStatement psz2=cn.prepareStatement(sql2);
+            
+            int n;
+             n = psz2.executeUpdate();
+            if (n>0) {
+                
+            }
+        } catch (Exception e) {
+        }
+    }
+    
     void numero_factura(){
         String id_factura="";
         
@@ -37,7 +83,7 @@ public class Factura extends javax.swing.JFrame {
             Statement sq2= cn.createStatement();
             ResultSet rq2= sq2.executeQuery("SELECT id_factura FROM contador" );
             rq2.next();
-            id_factura=rq2.getString("id_factura");
+            id_factura =rq2.getString("id_factura");
             
         } catch (SQLException e) {
         }
@@ -141,7 +187,7 @@ public class Factura extends javax.swing.JFrame {
             }
         }
         if (rowIndex != -1) {
-            float cantidad_actual_tabla = (float) model.getValueAt(rowIndex, cantidadColumnIndex);
+            float cantidad_actual_tabla = Float.parseFloat(model.getValueAt(rowIndex, cantidadColumnIndex).toString());
             float cantidad_nueva_tabla = cantidad_actual_tabla - cantidad;
             model.setValueAt(cantidad_nueva_tabla, rowIndex, cantidadColumnIndex);
         }
@@ -275,6 +321,18 @@ public class Factura extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
 
         }
+    }
+    
+    void actualizarContador() throws SQLException{
+       try{ 
+        PreparedStatement contadorUpdate = cn.prepareStatement("UPDATE contador SET id_factura = id_factura + 1 WHERE id_factura IS NOT NULL");
+        contadorUpdate.executeUpdate();
+        JOptionPane.showMessageDialog(null,"CONTADOR ACTUALIZADO");
+       }catch(SQLException ex){
+       JOptionPane.showMessageDialog(null, ex);
+       }
+    
+    
     }
 
    
@@ -769,18 +827,38 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_f_contadoActionPerformed
 
     private void guardar_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardar_facturaActionPerformed
-        imprimir.setEnabled(true);   
-        
-         productos.forEach((t, u) -> {
-                        actualizar_cantidad_factura(t,u);
-                    });
-        
-        if (f_contado.isSelected()) {
+           if (f_contado.isSelected()) {
             tipo_factura="CONTADO";
         }
         if (f_credito.isSelected()) {
             tipo_factura="CREDITO";
         }
+        guardar_factura(); 
+           guardar_detalle_factura();
+         try {
+             actualizarContador();
+         } catch (SQLException ex) {
+             Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        imprimir.setEnabled(true);   
+        
+         
+        
+        
+        
+        {
+        productos.forEach((t, u) -> {
+                        actualizar_cantidad_factura(t,u);
+                    });
+        }
+        
+        this.dispose();
+        Factura factura = new Factura();
+        factura.setVisible(true);
+        factura.setLocationRelativeTo(null);
+        
+        
+         
     }//GEN-LAST:event_guardar_facturaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -869,6 +947,7 @@ public class Factura extends javax.swing.JFrame {
     private javax.swing.JTable t_factura;
     private javax.swing.JTextField total_general;
     // End of variables declaration//GEN-END:variables
+
     ConexionDB cc = new ConexionDB();
     Connection cn = cc.conectar();
     
